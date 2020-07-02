@@ -131,7 +131,7 @@ public class TypeInferencer implements AutoCloseable {
    */
   private void push(Module mod) {
     int i = 0;
-    for (Sort s : iterable(TopologicalSort.tsort(mod.syntacticSubsorts().directRelations()))) {
+    for (Sort s : iterable(TopologicalSort.tsort(mod.subsorts().directRelations()))) {
       if (!isRealSort(s.head())) {
         continue;
       }
@@ -150,7 +150,7 @@ public class TypeInferencer implements AutoCloseable {
     println(")))");
     // provide fixed interpretation of subsort relation
     println("(define-fun <=Sort ((s1 Sort) (s2 Sort)) Bool (or");
-    for (Tuple2<Sort, Set<Sort>> relation : stream(mod.syntacticSubsorts().relations()).sorted(Comparator.comparing(t -> -ordinals.getOrDefault(t._1().head(), 0))).collect(Collectors.toList())) {
+    for (Tuple2<Sort, Set<Sort>> relation : stream(mod.subsorts().relations()).sorted(Comparator.comparing(t -> -ordinals.getOrDefault(t._1().head(), 0))).collect(Collectors.toList())) {
       if (!isRealSort(relation._1().head())) {
         continue;
       }
